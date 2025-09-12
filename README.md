@@ -22,15 +22,19 @@ Tools om financiële overzichten te controleren en/of te transformeren
 1. kopieer en plak:
 * `conda env create --file environment.yml`
 
+## zorgen dat de applicatie kan werken (dit doe je in principe eenmalig)
+* De precieze instellingen kunnen afhankelijk zijn van de gebruiker - neem even contact met ons op voor specifieke instellingen
+
 ## De applicatie gebruiken
 1. Ga naar de Windows startknop en type daar `cmd`
 1. Kies _Anaconda Prompt (Miniconda3)_
 1. Ga in de prompt naar de map _financiele\_overzichten_
 1. kopieer en plak:
-* `python tool.py`
+* `conda activate financiele_overzichten` (dit moet je iedere keer doen wanneer je begint met een sessie)
+`python tool.py` (dit start de applicatie, moet je iedere keer doen wanneer je bestanden wil omzetten)
 
 ## De applicatie updaten
-De applicatie is nog niet uitontwikkeld en er komen updates beschikbaar.
+De applicatie is mogelijk nog niet uitontwikkeld en er komen updates beschikbaar.
 Heb je de applicatie eerder al opgeslagen met de stappen onder _De applicatie opslaan (dit is allemaal eenmalig)_?
 Dan kun je zo de nieuwste versie krijgen:
 1. Ga naar de map waarin de bestanden zijn opgeslagen, in het voorbeeld heet deze _scripts/financiele\_overzichten_
