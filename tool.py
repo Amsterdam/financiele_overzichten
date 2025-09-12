@@ -17,6 +17,7 @@ if check_al_gedaan:
 
 # doorloop de bestanden
 for f in files:
+    print(f)
     # data inlezen
     data = pd.read_excel(f"{folder_in}/{f}", header=9)
 
