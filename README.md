@@ -9,9 +9,10 @@ Tools om financiële overzichten te controleren en/of te transformeren
 
 ## De applicatie opslaan (dit is allemaal eenmalig)
 1. Maak een map waarin je de bestanden willen opslaan, noem deze bijvoorbeeld _scripts_
-1. Klik in de map _scripts_ met de rechtermuisknop en kies voor _Git Bash here_ (windows 10) of _Open Git Bash_ (windows 11)
+1. Klik in de map _scripts_ met de rechtermuisknop en kies voor _Git Bash here_ (windows 10) of _Meer opties weergeven_ en dan _Open Git Bash here_ (windows 11)
 1. Kopieer en plak (met rechtse muisknop of shift + Insert):
 * `git clone https://github.com/Amsterdam/financiele_overzichten.git`
+1. Log indien nodig in op GitHub
 1. Je kan het Git bash venster nu afsluiten met `exit`
 
 1. Er is nu een map gemaakt met de naam _financiele\_overzichten_  
