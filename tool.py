@@ -22,7 +22,7 @@ for f in files:
 
     # data opschonen
     # volledige lege kolommen verwijderen
-    data = data.dropna(axis="columns", how="all")
+    data = data[[col for col in data.columns if "Unnamed" not in col]]
 
     # data wegschrijven
     data.to_csv(f"{folder_uit}/{f.replace('xlsx', 'csv')}", decimal=decimal, sep=sep)
@@ -32,8 +32,10 @@ for f in files:
 # maak een dataframe om op te slaan
 kolommen_dict = {}
 
-# de oude kolommentabel inlezen
-kolommen_tabel = pd.read_excel(f"{folder_uit}/kolomnamen.xlsx")
+# check of er al een kolommentabel is
+if os.path.isfile(f"{folder_uit}/kolomnamen.xlsx"):
+    # die inlezen
+    kolommen_tabel = pd.read_excel(f"{folder_uit}/kolomnamen.xlsx")
 
 # maak een lijst met uitvoerbestanden
 files = [f for f in os.listdir(folder_uit) if f.lower().endswith("csv")]
@@ -45,18 +47,15 @@ for f in files:
     kolommen = data.columns
     kolommen_dict[f] = kolommen.to_numpy()
 
-# voor een dataframe moet elke kolom even lang zijn
-# bepaal welke de meeste kolommen heeft
-max_lengte = max([len(kolommen) for kolommen in kolommen_dict.values()])
-
-# check of er kolommen toegevoegd moeten worden
-for f, kolommen in kolommen_dict.items():
-    if len(kolommen) != max_lengte:
-        # voeg 0-en toe als er minder kolommen zijn
-        kolommen_dict[f] = np.append(kolommen, np.zeros(max_lengte - len(kolommen)))
-
 # de nieuwe bestanden toevoegen aan de kolommentabel
-kolommen_tabel = pd.concat([kolommen_tabel, pd.DataFrame().from_dict(kolommen_dict).transpose()])
+# check of er al een kolommentabel was
+if os.path.isfile(f"{folder_uit}/kolomnamen.xlsx"):
+    # dan de nieuwe eraan plakken
+    kolommen_tabel = pd.concat([kolommen_tabel, pd.DataFrame().from_dict(kolommen_dict).transpose()])    
+else:
+    # anders een tabel maken
+    kolommen_tabel = pd.DataFrame().from_dict(kolommen_dict).transpose()
+
 kolommen_tabel = kolommen_tabel.drop_duplicates()
 
 kolommen_tabel.to_excel(f"{folder_uit}/kolomnamen.xlsx")
