@@ -1,11 +1,7 @@
 import numpy as np
 import os
 import pandas as pd
-from settings import basis_folder_in, basis_folder_uit, check_al_gedaan, decimal, sep
-
-
-folder_in = f"{basis_folder_in}/Team Data, Rapportages en Innovatie (DR&I) - Boekingsregels"
-folder_uit = f"{basis_folder_uit}/"
+from settings import folder_in, folder_uit, check_al_gedaan, decimal, sep
 
 # maak een lijst met de bestanden in de invoermap
 files = [f for f in os.listdir(folder_in) if f.lower().endswith("xlsx")]
