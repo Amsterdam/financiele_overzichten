@@ -5,7 +5,7 @@ from settings import basis_folder_in, basis_folder_uit, check_al_gedaan, decimal
 
 
 folder_in = f"{basis_folder_in}/Team Data, Rapportages en Innovatie (DR&I) - Boekingsregels"
-folder_uit = f"{basis_folder_uit}/Bestanden van Tse, Jeffrey - FIP/CSV_data"
+folder_uit = f"{basis_folder_uit}/"
 
 # maak een lijst met de bestanden in de invoermap
 files = [f for f in os.listdir(folder_in) if f.lower().endswith("xlsx")]
