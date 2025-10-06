@@ -1,4 +1,4 @@
 name: financiele_overzichten
 dependencies:
-  - pandas
-  - openpyxl
+  - polars
+  - fastexcel
