@@ -1,4 +1,4 @@
-name: financiele_overzichten
+name: financiele_overzichten_polars
 dependencies:
   - polars
   - fastexcel
