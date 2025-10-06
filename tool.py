@@ -45,19 +45,21 @@ files = [f for f in os.listdir(folder_uit) if f.lower().endswith("csv")]
 # lees de kolomnamen in uit de omgezette CSVs
 for f in files:
     print(f)
-    data = pd.read_csv(f"{folder_uit}/{f}", decimal=decimal, sep=sep, nrows=1)
+    data = pl.read_csv(f"{folder_uit}/{f}", separator=sep, n_rows=1, ignore_errors=True)
+    file_name = pl.Series(f, [None])
+    data = data.insert_column(0, file_name)
     kolommen = data.columns
-    kolommen_dict[f] = kolommen.to_numpy()
+    kolommen_dict[f] = kolommen
 
 # de nieuwe bestanden toevoegen aan de kolommentabel
 # check of er al een kolommentabel was
 if os.path.isfile(f"{folder_uit}/kolomnamen.xlsx"):
     # dan de nieuwe eraan plakken
-    kolommen_tabel = pd.concat([kolommen_tabel, pd.DataFrame().from_dict(kolommen_dict).transpose()])    
+    kolommen_tabel = pl.concat([kolommen_tabel, pl.from_dict(kolommen_dict).transpose()])    
 else:
     # anders een tabel maken
-    kolommen_tabel = pd.DataFrame().from_dict(kolommen_dict).transpose()
+    kolommen_tabel = pl.from_dict(kolommen_dict).transpose()
 
-kolommen_tabel = kolommen_tabel.loc[~kolommen_tabel.index.duplicated(keep='first')]
+# kolommen_tabel = kolommen_tabel.loc[~kolommen_tabel.index.duplicated(keep='first')]
 
 kolommen_tabel.write_excel(f"{folder_uit}/kolomnamen.xlsx")

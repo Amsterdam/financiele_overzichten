@@ -2,3 +2,4 @@ name: financiele_overzichten_polars
 dependencies:
   - polars
   - fastexcel
+  - xlsxwriter
