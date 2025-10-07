@@ -1,8 +1,6 @@
-import numpy as np
 import os
-import pandas as pd
 import polars as pl
-from settings import folder_in_test, folder_in, folder_uit, test, check_al_gedaan, decimal, sep
+from settings import folder_in_test, folder_in, folder_uit, test, check_al_gedaan, separator, decimal_comma
 
 # check of test al is gedaan:
 if test:
@@ -27,7 +25,7 @@ for f in files:
     data = data[[col for col in data.columns if "Unnamed" not in col]]
 
     # data wegschrijven
-    data.write_csv(f"{folder_uit}/{f.replace('xlsx', 'csv')}", separator=sep)
+    data.write_csv(f"{folder_uit}/{f.replace('xlsx', 'csv')}", separator=separator, decimal_comma=decimal_comma)
 
 # check de kolomnamen
 
@@ -45,7 +43,7 @@ files = [f for f in os.listdir(folder_uit) if f.lower().endswith("csv")]
 # lees de kolomnamen in uit de omgezette CSVs
 for f in files:
     print(f)
-    data = pl.read_csv(f"{folder_uit}/{f}", separator=sep, n_rows=1, ignore_errors=True)
+    data = pl.read_csv(f"{folder_uit}/{f}", separator=separator, decimal_comma=decimal_comma, n_rows=1, ignore_errors=True)
     file_name = pl.Series(f, [None])
     data = data.insert_column(0, file_name)
     kolommen = data.columns

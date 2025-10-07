@@ -1,5 +1,7 @@
-name: financiele_overzichten_polars
+name: financiele_overzichten
 dependencies:
-  - polars
-  - fastexcel
-  - xlsxwriter
+  - pip
+  - pip:
+    - polars
+    - fastexcel
+    - xlsxwriter
