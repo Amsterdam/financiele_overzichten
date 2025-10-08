@@ -1,7 +1,7 @@
 import numpy as np
 import os
 import pandas as pd
-from settings import folder_in_test, folder_in, folder_uit, test, check_al_gedaan, decimal, sep
+from settings import folder_in_test, folder_in, folder_uit, test, check_al_gedaan, decimal, sep, header
 
 # check of test al is gedaan:
 if test:
@@ -18,8 +18,8 @@ if check_al_gedaan:
 # doorloop de bestanden
 for f in files:
     print(f)
-    # data inlezen
-    data = pd.read_excel(f"{folder_in}/{f}", header=9)
+    # data inlezen, header regel is in python nummering beginnend bij 0, Excel begint bij 1, vandaar -1
+    data = pd.read_excel(f"{folder_in}/{f}", header=header-1)
 
     # data opschonen
     # volledige lege kolommen verwijderen

@@ -19,3 +19,5 @@ test = True
 check_al_gedaan = True
 decimal = "."
 sep = ";"
+# in de oorspronkelijke bestanden was de headerregel 10, als dat later veranderd is, kun je hier een nieuwe waarde instellen
+header = 10
