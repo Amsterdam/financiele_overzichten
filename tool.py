@@ -1,7 +1,11 @@
 import numpy as np
 import os
 import pandas as pd
-from settings import folder_in, folder_uit, check_al_gedaan, decimal, sep
+from settings import folder_in_test, folder_in, folder_uit, test, check_al_gedaan, decimal, sep
+
+# check of test al is gedaan:
+if test:
+    folder_in = folder_in_test
 
 # maak een lijst met de bestanden in de invoermap
 files = [f for f in os.listdir(folder_in) if f.lower().endswith("xlsx")]
@@ -32,7 +36,7 @@ kolommen_dict = {}
 # check of er al een kolommentabel is
 if os.path.isfile(f"{folder_uit}/kolomnamen.xlsx"):
     # die inlezen
-    kolommen_tabel = pd.read_excel(f"{folder_uit}/kolomnamen.xlsx")
+    kolommen_tabel = pd.read_excel(f"{folder_uit}/kolomnamen.xlsx", index_col=0)
 
 # maak een lijst met uitvoerbestanden
 files = [f for f in os.listdir(folder_uit) if f.lower().endswith("csv")]
@@ -53,6 +57,6 @@ else:
     # anders een tabel maken
     kolommen_tabel = pd.DataFrame().from_dict(kolommen_dict).transpose()
 
-kolommen_tabel = kolommen_tabel.drop_duplicates()
+kolommen_tabel = kolommen_tabel.loc[~kolommen_tabel.index.duplicated(keep='first')]
 
 kolommen_tabel.to_excel(f"{folder_uit}/kolomnamen.xlsx")
