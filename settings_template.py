@@ -17,7 +17,9 @@ folder_uit = f"{base_folder}/Data/AFIS/FIP/CSV_data"
 test = True
 # voor het doorlopen van alle bestanden bij het inlezen, zet check_al_gedaan op False
 check_al_gedaan = True
-decimal = "."
-sep = ";"
 # in de oorspronkelijke bestanden was de headerregel 10, als dat later veranderd is, kun je hier een nieuwe waarde instellen
 header = 10
+# scheidingsteken voor kolommen in csv kun je instellen met separator. We adviseren puntkomma te gebruiken.
+separator = ";"
+# om decimale komma's te gebruiken voor weggeschreven bestanden zet decimal_comma op True. We adviseren hier False te gebruiken.
+decimal_comma = False
