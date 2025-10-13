@@ -1,7 +1,6 @@
-import numpy as np
 import os
-import pandas as pd
-from settings import folder_in_test, folder_in, folder_uit, test, check_al_gedaan, decimal, sep
+import polars as pl
+from settings import folder_in_test, folder_in, folder_uit, test, check_al_gedaan, separator, decimal_comma
 
 # check of test al is gedaan:
 if test:
@@ -19,14 +18,14 @@ if check_al_gedaan:
 for f in files:
     print(f)
     # data inlezen
-    data = pd.read_excel(f"{folder_in}/{f}", header=9)
+    data = pl.read_excel(f"{folder_in}/{f}", read_options={'header_row': 9})
 
     # data opschonen
     # volledige lege kolommen verwijderen
     data = data[[col for col in data.columns if "Unnamed" not in col]]
 
     # data wegschrijven
-    data.to_csv(f"{folder_uit}/{f.replace('xlsx', 'csv')}", decimal=decimal, sep=sep)
+    data.write_csv(f"{folder_uit}/{f.replace('xlsx', 'csv')}", separator=separator, decimal_comma=decimal_comma)
 
 # check de kolomnamen
 
@@ -36,7 +35,7 @@ kolommen_dict = {}
 # check of er al een kolommentabel is
 if os.path.isfile(f"{folder_uit}/kolomnamen.xlsx"):
     # die inlezen
-    kolommen_tabel = pd.read_excel(f"{folder_uit}/kolomnamen.xlsx", index_col=0)
+    kolommen_tabel = pl.read_excel(f"{folder_uit}/kolomnamen.xlsx")
 
 # maak een lijst met uitvoerbestanden
 files = [f for f in os.listdir(folder_uit) if f.lower().endswith("csv")]
@@ -44,19 +43,21 @@ files = [f for f in os.listdir(folder_uit) if f.lower().endswith("csv")]
 # lees de kolomnamen in uit de omgezette CSVs
 for f in files:
     print(f)
-    data = pd.read_csv(f"{folder_uit}/{f}", decimal=decimal, sep=sep, nrows=1)
+    data = pl.read_csv(f"{folder_uit}/{f}", separator=separator, decimal_comma=decimal_comma, n_rows=1, ignore_errors=True)
+    file_name = pl.Series(f, [None])
+    data = data.insert_column(0, file_name)
     kolommen = data.columns
-    kolommen_dict[f] = kolommen.to_numpy()
+    kolommen_dict[f] = kolommen
 
 # de nieuwe bestanden toevoegen aan de kolommentabel
 # check of er al een kolommentabel was
 if os.path.isfile(f"{folder_uit}/kolomnamen.xlsx"):
     # dan de nieuwe eraan plakken
-    kolommen_tabel = pd.concat([kolommen_tabel, pd.DataFrame().from_dict(kolommen_dict).transpose()])    
+    kolommen_tabel = pl.concat([kolommen_tabel, pl.from_dict(kolommen_dict).transpose()])    
 else:
     # anders een tabel maken
-    kolommen_tabel = pd.DataFrame().from_dict(kolommen_dict).transpose()
+    kolommen_tabel = pl.from_dict(kolommen_dict).transpose()
 
-kolommen_tabel = kolommen_tabel.loc[~kolommen_tabel.index.duplicated(keep='first')]
+# kolommen_tabel = kolommen_tabel.loc[~kolommen_tabel.index.duplicated(keep='first')]
 
-kolommen_tabel.to_excel(f"{folder_uit}/kolomnamen.xlsx")
+kolommen_tabel.write_excel(f"{folder_uit}/kolomnamen.xlsx")
