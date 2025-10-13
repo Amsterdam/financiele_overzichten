@@ -1,6 +1,6 @@
 import os
 import polars as pl
-from settings import folder_in_test, folder_in, folder_uit, test, check_al_gedaan, separator, decimal_comma
+from settings import folder_in_test, folder_in, folder_uit, test, check_al_gedaan, separator, decimal_comma, header
 
 # check of test al is gedaan:
 if test:
@@ -17,8 +17,8 @@ if check_al_gedaan:
 # doorloop de bestanden
 for f in files:
     print(f)
-    # data inlezen
-    data = pl.read_excel(f"{folder_in}/{f}", read_options={'header_row': 9})
+    # data inlezen, header regel is in python nummering beginnend bij 0, Excel begint bij 1, vandaar -1
+    data = pl.read_excel(f"{folder_in}/{f}", read_options={'header_row': header-1})
 
     # data opschonen
     # volledige lege kolommen verwijderen
